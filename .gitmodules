@@ -1,0 +1,3 @@
+[submodule "lib/FireRoute"]
+	path = lib/FireRoute
+	url = git@github.com:Enroutemx/FireRoute.git
