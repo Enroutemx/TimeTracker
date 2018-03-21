@@ -1,26 +1,42 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, Text, StyleSheet, TextInput } from 'react-native';
+import { AppRegistry, View, Text, StyleSheet, TextInput, ActivityIndicator, Alert } from 'react-native';
 import Button from 'react-native-button'
 import { NavigationActions } from 'react-navigation';
+import FireRoute from '../lib/FireRoute/source/fireroute'
 import DefaultStyles from '../config/styles'
 
 export default class LoginView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { emailText: '', passwordText: '', hidePassword: true};
+        this.state = { emailText: '', passwordText: '', hidePassword: true, loading: false};
+        this._login = this._login.bind(this);
     }
 
-    _login() {
-        this.props.navigation.dispatch(
-            NavigationActions.reset({
-                index: 0,
-                key: null,
-                actions: [
-                    NavigationActions.navigate({ routeName: 'RootStack' })
-                ]
-           })
-        )
+    _login(state) {
+        var that = this;
+        this.setState({loading: true})
+        FireRoute.login(this.state.emailText, this.state.passwordText, function(success, response){
+            that.setState({loading: false})
+            if (success) {
+                that.props.navigation.dispatch(
+                    NavigationActions.reset({
+                        index: 0,
+                        key: null,
+                        actions: [
+                            NavigationActions.navigate({ routeName: 'RootStack' })
+                        ]
+                   })
+                )
+            } else {
+                Alert.alert(
+                    'Error',
+                    response.message,
+                    [{text: 'Cancel', style: 'cancel'},],
+                    { cancelable: false }
+                  )
+            }
+        });
     }
 
     render() {
@@ -44,7 +60,7 @@ export default class LoginView extends React.Component {
                     containerStyle={styles.loginButtonContainer}
                     disabledContainerStyle={styles.loginButtonDisabledContainer}
                     style={styles.loginButtonText}
-                    onPress={() => this._login()}>
+                    onPress={this._login}>
                     Login
                 </Button>
             </View>

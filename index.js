@@ -1,6 +1,7 @@
 import React from "react";
 import { createRootNavigator } from "./config/routes";
 import { isSignedIn } from "./managers/authentication";
+import FireRoute from './lib/FireRoute/source/fireroute'
 
 export default class App extends React.Component {
     constructor(props) {
@@ -13,6 +14,7 @@ export default class App extends React.Component {
     }
   
     componentWillMount() {
+      FireRoute.init()
       isSignedIn()
         .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
         .catch(err => alert("An error occurred"));
