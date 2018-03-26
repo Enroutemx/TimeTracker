@@ -9,51 +9,104 @@ import { AppRegistry,
 import Button from 'react-native-button'
 import TaskView from '../components/TaskView/index'
 import ReportView from './ReportView'
+import { Agenda } from 'react-native-calendars';
 
 export default class DashboardView extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { isLoading: false }
+    this.state = { isLoading: false, items: {}}
   }
 
   componentDidMount(){
     this.setState({ dataSource: [{'project': 'IAS - Mobile', 'task' : 'DEV', 'time': '08:00'}]})
   }
 
+  loadItems(day) {
+    setTimeout(() => {
+      for (let i = -15; i < 85; i++) {
+        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+        const strTime = this.timeToString(time);
+        if (!this.state.items[strTime]) {
+          this.state.items[strTime] = [];
+          const numItems = 1;
+          for (let j = 0; j < numItems; j++) {
+            this.state.items[strTime].push({
+              name: this.state.dataSource[0]['project'] + '\n' + this.state.dataSource[0]['task'] + " " + this.state.dataSource[0]['time'],
+              height: Math.max(50, Math.floor(Math.random() * 150))
+            });
+          }
+        }
+      }
+      //console.log(this.state.items);
+      const newItems = {};
+      Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
+      this.setState({
+        items: newItems
+      });
+    }, 1000);
+    // console.log(`Load Items for ${day.year}-${day.month}`);
+  }
+
+  renderItem(item) {
+    return (
+      <View style={[styles.item, {height: item.height}]}><Text>{item.name}</Text></View>
+    );
+  }
+
+  renderEmptyDate() {
+    return (
+      <View style={styles.emptyDate}><Text>This is empty date!</Text></View>
+    );
+  }
+
+  rowHasChanged(r1, r2) {
+    return r1.name !== r2.name;
+  }
+
+  timeToString(time) {
+    const date = new Date(time);
+    return date.toISOString().split('T')[0];
+  }
+
   render() {
     return (
       <View style={{flex: 1}}>
+
         <View style={styles.calendarContainer} >
-
           <View style= {styles.navigationContainer}>
-
             <Button containerStyle={styles.profileButton}>
               <Image source={require('../assets/profile.png')} />
             </Button>
-
             <View style={styles.bigTitleContainer} >
               <Text style={styles.bigTitleText}>Enroute</Text>
             </View>
           </View>
-
           <View style={styles.pieGraphContainer} >
           </View>
-
-          <View style={styles.calendarNavigationContainer} >
-            <Button>
-              <Image source={require('../assets/back.png')} />
-            </Button>
-            <Text style={styles.smallTitleText}>02-03-2018 {"\n"} Friday</Text>
-            <Button>
-              <Image source={require('../assets/next.png')} />
-            </Button>
-          </View>
-
         </View>
 
-        <TaskView dataSource = {this.state.dataSource} navigation={this.props.navigation}></TaskView>
-        
+        <Agenda
+          items={this.state.items}
+          loadItemsForMonth={this.loadItems.bind(this)}
+          selected={new Date()}
+          renderItem={this.renderItem.bind(this)}
+          renderEmptyDate={this.renderEmptyDate.bind(this)}
+          rowHasChanged={this.rowHasChanged.bind(this)}
+          // markingType={'period'}
+          // markedDates={{
+          //    '2017-05-08': {textColor: '#666'},
+          //    '2017-05-09': {textColor: '#666'},
+          //    '2017-05-14': {startingDay: true, endingDay: true, color: 'blue'},
+          //    '2017-05-21': {startingDay: true, color: 'blue'},
+          //    '2017-05-22': {endingDay: true, color: 'gray'},
+          //    '2017-05-24': {startingDay: true, color: 'gray'},
+          //    '2017-05-25': {color: 'gray'},
+          //    '2017-05-26': {endingDay: true, color: 'gray'}}}
+          // monthFormat={'yyyy'}
+          // theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
+          //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
+          />
       </View>
     );
   }
@@ -61,7 +114,7 @@ export default class DashboardView extends React.Component {
 
 const styles = StyleSheet.create({
   calendarContainer: {
-    height: 350,
+    height: 300,
     backgroundColor: 'rgba(192, 192, 192, 1.0)',
   },
   navigationContainer: {
@@ -102,4 +155,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
+  item: {
+    backgroundColor: 'white',
+    flex: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+    marginTop: 17
+  }
 });
