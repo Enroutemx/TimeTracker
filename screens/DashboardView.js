@@ -69,6 +69,26 @@ export default class DashboardView extends React.Component {
     return date.toISOString().split('T')[0];
   }
 
+  /**
+   * Navigation Actions
+   */
+
+  openSearchReport() {
+    //ToDo
+  }
+
+  openSendReport() {
+    this.props.navigation.navigate('ReportModal')
+  }
+
+  openAppSettings() {
+    //ToDo
+  }
+
+  /**
+   * Render UI
+   */
+
   render() {
     return (
       <View style={{flex: 1}}>
@@ -85,13 +105,13 @@ export default class DashboardView extends React.Component {
           </View>
 
           <View style={styles.actionToolbarContainer} >
-            <Button>
+            <Button onPress={() => this.openSearchReport()} >
               <Image source={require('../assets/search.png')} style={styles.actionImage} />
             </Button>
-            <Button>
+            <Button onPress={() => this.openSendReport()} >
               <Image source={require('../assets/send.png')} style={styles.actionImage} />
             </Button>
-            <Button >
+            <Button onPress={() => this.openAppSettings()} >
               <Image source={require('../assets/gear.png')} style={styles.actionImage} />
             </Button>
           </View>
