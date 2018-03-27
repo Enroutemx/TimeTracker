@@ -74,16 +74,31 @@ export default class DashboardView extends React.Component {
       <View style={{flex: 1}}>
 
         <View style={styles.calendarContainer} >
+        
           <View style= {styles.navigationContainer}>
-            <Button containerStyle={styles.profileButton}>
-              <Image source={require('../assets/profile.png')} />
+            <Button>
+              <Image source={require('../assets/profile.png')} style={styles.profileImage}/>
             </Button>
             <View style={styles.bigTitleContainer} >
-              <Text style={styles.bigTitleText}>Enroute</Text>
+              <Text style={styles.bigTitleText}>Inicio</Text>
             </View>
           </View>
+
+          <View style={styles.actionToolbarContainer} >
+            <Button>
+              <Image source={require('../assets/search.png')} style={styles.actionImage} />
+            </Button>
+            <Button>
+              <Image source={require('../assets/send.png')} style={styles.actionImage} />
+            </Button>
+            <Button >
+              <Image source={require('../assets/gear.png')} style={styles.actionImage} />
+            </Button>
+          </View>
+
           <View style={styles.pieGraphContainer} >
           </View>
+
         </View>
 
         <Agenda
@@ -121,23 +136,31 @@ const styles = StyleSheet.create({
     flex: 0.2,
     marginTop: 25,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  profileButton: {
-    width: 50,
   },
   bigTitleContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingRight: 50,
-    alignItems: 'center',
+    paddingLeft: 10,
+    paddingTop: 2
+  },
+  actionToolbarContainer: {
+    marginLeft: 20,
+    marginRight: 20,
+    flex: 0.2,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   pieGraphContainer: {
-    flex: 0.55,
+    flex: 0.6,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 60,
+  },
+  profileImage: {
+    width: 40,
+    width: 40,
+  },
+  actionImage: {
+    width: 30,
+    height: 30,
   },
   bigTitleText: {
     color: 'rgb(254, 225, 51)',
@@ -149,11 +172,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 20,
-  },
-  calendarNavigationContainer: {
-    flex: 0.25,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
   },
   item: {
     backgroundColor: 'white',
