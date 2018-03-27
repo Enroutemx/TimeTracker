@@ -177,7 +177,8 @@ const styles = StyleSheet.create({
     marginRight: 20,
     flex: 0.2,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   pieGraphContainer: {
     flex: 0.6,
