@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: DefaultStyles.lightGrayColor(),
   },
   navigationContainer: {
-    flex: 0.2,
+    flex: 0.175,
     marginTop: 25,
     flexDirection: 'row',
   },
@@ -175,13 +175,13 @@ const styles = StyleSheet.create({
   actionToolbarContainer: {
     marginLeft: 20,
     marginRight: 20,
-    flex: 0.2,
+    flex: 0.175,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   pieGraphContainer: {
-    flex: 0.6,
+    flex: 0.65,
     justifyContent: 'center',
     alignItems: 'center',
   },
