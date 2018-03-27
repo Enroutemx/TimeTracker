@@ -10,6 +10,8 @@ import Button from 'react-native-button'
 import TaskView from '../components/TaskView/index'
 import ReportView from './ReportView'
 import { Agenda } from 'react-native-calendars';
+import Pie from 'react-native-pie'
+import DefaultStyles from '../config/styles'
 
 export default class DashboardView extends React.Component {
 
@@ -117,6 +119,15 @@ export default class DashboardView extends React.Component {
           </View>
 
           <View style={styles.pieGraphContainer} >
+            <Pie
+              radius={50}
+              innerRadius={45}
+              series={[80]}
+              colors={[DefaultStyles.mainColor()]}
+              backgroundColor='#ddd' />
+            <View style={styles.gauge}>
+              <Text style={styles.gaugeText}>80%</Text>
+            </View>
           </View>
 
         </View>
@@ -150,7 +161,7 @@ export default class DashboardView extends React.Component {
 const styles = StyleSheet.create({
   calendarContainer: {
     height: 300,
-    backgroundColor: 'rgba(192, 192, 192, 1.0)',
+    backgroundColor: DefaultStyles.lightGrayColor(),
   },
   navigationContainer: {
     flex: 0.2,
@@ -172,7 +183,13 @@ const styles = StyleSheet.create({
     flex: 0.6,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 60,
+  },
+  gaugeContainer: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   profileImage: {
     width: 40,
@@ -193,6 +210,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
   },
+  gaugeText: {
+    backgroundColor: 'transparent',
+    color: '#000',
+    fontSize: 24,
+  },
   item: {
     backgroundColor: 'white',
     flex: 1,
@@ -200,5 +222,5 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 10,
     marginTop: 17
-  }
+  }, 
 });
